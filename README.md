@@ -15,8 +15,8 @@ Java 程序设计课程项目：《实现一个简单的版本管理工具》（
 - 给定 value，以下以 "hello world" 为例
 ```
 Hash ("hello world") == 34234234
-创建文件 objects/34234234 --> hello world
-给定34234234，要找到value的值
+创建文件 objects / 34234234 --> hello world
+给定 34234234，要找到 value 的值
 ```
 
 支持以下功能
