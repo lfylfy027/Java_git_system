@@ -36,13 +36,12 @@ public abstract class KeyValueObject {
         return this.Value;
     }
 
-    //拷贝文件，文件名为key值
+    //拷贝文件，文件名为key值，存放到objects中
     public void copyFile() throws IOException{
         FileInputStream fileInputStream = new FileInputStream(this.File);
-        FileOutputStream fileOutputStream = new FileOutputStream(this.Key);
+        FileOutputStream fileOutputStream = new FileOutputStream("objects/"+this.Key.charAt(0)+"/"+this.Key);
         byte[] buffer = new byte[1024];
         while (fileInputStream.read(buffer) != -1) {
-        	if(fileInputStream.read(buffer) > 0)
         		fileOutputStream.write(buffer);
         }
         fileInputStream.close();
