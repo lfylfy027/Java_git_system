@@ -1,5 +1,5 @@
 import java.io.File;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 public class Commit extends KeyValueObject {
@@ -22,8 +22,15 @@ public class Commit extends KeyValueObject {
 	}
 	
 	@Override
-    public void copyFile() throws IOException{
+    public void copyFile() throws FileNotFoundException {
     	//输出
+		
+		//以hash值首字母创建路径
+		File dir = new File("objects/"+this.Key.charAt(0));
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+    	
         PrintWriter p = new PrintWriter("objects/"+this.Key.charAt(0)+"/"+this.Key);
         p.print(Value);
         p.close();
