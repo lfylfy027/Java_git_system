@@ -13,14 +13,12 @@ public abstract class KeyValueObject {
 
     //输入文件生成key
     protected void GenerateKey(File file) throws Exception{
-        SHA1Checksum s = new SHA1Checksum(file); //新建一个SHA1Checksum类实例s
-        this.Key = s.getSHA1(); //得到SHA1Checksum类中封装的数据域key
+        this.Key = SHA1Checksum.Hash(file); //得到SHA1Checksum类中封装的数据域key
         this.File = file;
     }
 
     protected void GenerateKey(String a) throws Exception{
-        SHA1Checksum s = new SHA1Checksum(a);
-        this.Key = s.getSHA1();
+        this.Key = SHA1Checksum.Hash(a);
     }
 
     //封装数据域
@@ -38,8 +36,19 @@ public abstract class KeyValueObject {
 
     //拷贝文件，文件名为key值，存放到objects中
     public void copyFile() throws IOException{
+    	
+    	//以hash值首字母创建路径
+    	File dir = new File("objects/"+this.Key.charAt(0));
+    	if (!dir.exists()) {
+    		dir.mkdirs();
+    	}
+    	
+    	//获得原文件后缀
+    	String fileName=File.getName();	
+    	String fileType=fileName.substring(fileName.lastIndexOf("."),fileName.length());
+
         FileInputStream fileInputStream = new FileInputStream(this.File);
-        FileOutputStream fileOutputStream = new FileOutputStream("objects/"+this.Key.charAt(0)+"/"+this.Key);
+        FileOutputStream fileOutputStream = new FileOutputStream("objects/"+this.Key.charAt(0)+"/"+this.Key+fileType);
         byte[] buffer = new byte[1024];
         while (fileInputStream.read(buffer) != -1) {
         		fileOutputStream.write(buffer);

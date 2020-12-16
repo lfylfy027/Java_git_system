@@ -30,6 +30,13 @@ public class Tree extends KeyValueObject {
     @Override
     public void copyFile() throws IOException{
     	//输出到objects文件夹中
+    	
+    	//以hash值首字母创建路径
+    	File dir = new File("objects/"+this.Key.charAt(0));
+    	if (!dir.exists()) {
+    		dir.mkdirs();
+    	}
+    	
         PrintWriter p = new PrintWriter("objects/"+this.Key.charAt(0)+"/"+this.Key);
         p.print(Value);
         p.close();//
