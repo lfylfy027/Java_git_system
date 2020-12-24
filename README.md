@@ -39,3 +39,34 @@ Hash ("hello world") == 34234234
 - 提示：
   - 需要存储指向当前最新 commit 的 HEAD 指针
   - 每次新生成一个 commit 前，需要把根目录的 tree key 与已有的最新 commit 的 tree key 进行比较，发现不相同时（即文件发生了变动）才添加这个 commit
+
+### 第三周
+#### 至少完成
+- 前两周的阶段性任务(key-value、Blob、Tree、Commit)
+- 对后续任务(分支、回滚、命令行交互)如何实现的设计文档
+#### 尽量多做
+- 后续任务(分支、回滚、命令行交互)的代码实现
+#### 分支管理
+需要保存分支信息
+- 有哪些分支？
+- 每个分支的最新commit id
+- 当前正处于哪个分支？
+- HEAD指针
+#### 分支切换与回滚
+本质上是把commit对应的根目录Tree对象恢复成一个文件夹
+- 根据commit key查询得到commit的value
+- 从commit value中解析得到根目录tree的key
+- 恢复(path)：
+  - 根据tree的key查询得到value
+  - 解析value中的每一条记录，即这个tree对象所代表的文件夹内的子文件与子文件夹名称以及对应的blob/tree key
+  - 对于blob，在path中创建文件，命名为相应的文件名，写入blob的value
+  - 对于tree，在path中创建文件夹，命名为相应的文件夹名，递归调用恢复(path+文件夹名)
+
+根目录tree恢复成文件夹后，可以直接替换原先工作区的根目录
+- 优化空间：不替换整个根目录，只替换发生变动的子目录/子文件
+
+切换分支/回滚至某个commit后，需要更新HEAD指针
+#### 命令行交互
+两种选择
+- Scanner接收用户指令
+- 通过main函数命令行参数String[] args接收用户指令
