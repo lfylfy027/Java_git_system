@@ -1,5 +1,4 @@
 
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,8 +49,16 @@ public class KeyValue_Storage {
 	
 	public static void main(String args[]) {
 			try {
+				//新建仓库
+				new Repository().createRepository("TestRep1");
 				File dir=new File("test");
-				new Commit(dir).copyFile();;
+				new Commit(dir).copyFile();
+				//将commit信息写入当前分支
+				new Branch().writeCommitID();
+				//创建新分支
+				new Branch("new");
+				//切换分支
+				new Branch().switchBranch("new");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

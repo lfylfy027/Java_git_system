@@ -6,6 +6,8 @@ public abstract class KeyValueObject {
     protected String Key;
     protected File File;
     protected String Value;
+    protected static String gitDir;
+    protected static String CommitID;
 
     protected  KeyValueObject(){
 
@@ -15,6 +17,10 @@ public abstract class KeyValueObject {
     protected void GenerateKey(File file) throws Exception{
         this.Key = SHA1Checksum.Hash(file); //得到SHA1Checksum类中封装的数据域key
         this.File = file;
+    }
+    
+    protected void GenerateKey1(File file) throws Exception{
+        this.Key = SHA1Checksum.Hash(file); //得到SHA1Checksum类中封装的数据域key
     }
 
     protected void GenerateKey(String a) throws Exception{
@@ -38,7 +44,7 @@ public abstract class KeyValueObject {
     public void copyFile() throws IOException{
     	
     	//以hash值首字母创建路径
-    	File dir = new File("objects/"+this.Key.charAt(0));
+    	File dir = new File(gitDir+"/objects/"+this.Key.charAt(0));
     	if (!dir.exists()) {
     		dir.mkdirs();
     	}
@@ -48,7 +54,7 @@ public abstract class KeyValueObject {
     	String fileType=fileName.substring(fileName.lastIndexOf("."),fileName.length());
 
         FileInputStream fileInputStream = new FileInputStream(this.File);
-        FileOutputStream fileOutputStream = new FileOutputStream("objects/"+this.Key.charAt(0)+"/"+this.Key+fileType);
+        FileOutputStream fileOutputStream = new FileOutputStream(gitDir+"/objects/"+this.Key.charAt(0)+"/"+this.Key+fileType);
         byte[] buffer = new byte[1024];
         while (fileInputStream.read(buffer) != -1) {
         		fileOutputStream.write(buffer);
