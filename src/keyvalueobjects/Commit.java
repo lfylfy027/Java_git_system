@@ -1,5 +1,7 @@
+package keyvalueobjects;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
@@ -9,6 +11,12 @@ public class Commit extends KeyValueObject {
 	protected String author;
 	protected String committer;
 	protected String tree;
+	protected String commitID;
+	protected String gitDir;
+	
+	protected Commit() {
+		
+	}
 	
 	public void loadcommit(File commit) {
 		try {
@@ -32,11 +40,12 @@ public class Commit extends KeyValueObject {
 		}
 	}
 	//根据仓库路径新生成一个commit
-	public Commit(File dir) throws Exception {
+	public Commit(File dir, String gitD) throws Exception {
+		gitDir = gitD;
 		this.File=dir;
 		this.Type = "commit";
 		this.Value="";
-		this.tree=KeyValue_Storage.storage(dir);
+		this.tree=KeyValue_Storage.storage(dir, gitD);
 		Value+= "tree "+tree+"\n";
 		Value+= "parent "+"\n";
 		Value+= "author "+"\n";
@@ -47,10 +56,8 @@ public class Commit extends KeyValueObject {
 	public String gettree() {
 		return tree;
 	}
-	
-	@Override
-    public void copyFile() throws FileNotFoundException {
-    	//输出
+		
+    public void copyFile() throws FileNotFoundException, IOException {
 		
 		//以hash值首字母创建路径
 		File dir = new File(gitDir+"/objects/"+this.Key.charAt(0));
@@ -62,6 +69,15 @@ public class Commit extends KeyValueObject {
         p.print(Value);
         p.close();
         
-        CommitID = this.Key;
+        commitID = this.Key;
     }
+    
+	public String getcommitID() {
+		return commitID;
+	}
+	
+	public String getinfo() {
+		return parent + commitID + committer;
+	}
+	
 }
