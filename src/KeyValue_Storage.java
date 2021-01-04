@@ -35,8 +35,8 @@ public class KeyValue_Storage {
 	}
 	
 	//根据key值查找文件，返回该文件
-	public static File getValue(String key) {
-		String path="objects/"+key.charAt(0);
+	public static File getValue(String repdir,String key) {
+		String path=repdir+"objects/"+key.charAt(0);
 		File dir=new File(path);
 		File[] fs = dir.listFiles();
 		ArrayList<File> files=new ArrayList<File>(Arrays.asList(fs));

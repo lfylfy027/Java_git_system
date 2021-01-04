@@ -8,7 +8,7 @@ public abstract class KeyValueObject {
     protected String Value;
     protected static String gitDir;
     protected static String CommitID;
-
+    protected String dir;
     protected  KeyValueObject(){
 
     }
