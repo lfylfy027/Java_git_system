@@ -67,8 +67,9 @@ public class Operation {
 	
 	public static void main(String args[]) throws Exception {
 		Operation go = new Operation();
-		go.newRep("TestRep1");
-		go.newCommit("test");
+		go.newRep("test");
+		//go.newCommit("test");
+		new Reset(go.currRepository, go.currCommit).reset_hard();
 		go.newBranch("newBranch");
 		go.showBranches();
 		go.alterBranch("newBranch");			

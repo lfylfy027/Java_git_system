@@ -14,7 +14,7 @@ public class Tree extends Commit {
         	if(f.isFile()){
                 Value += "100644 blob " + new Blob(f).getKey() + " " + f.getName()+"\n";
             }
-            else if(f.isDirectory()){
+            else if(f.isDirectory()&&!f.getName().equals(".git")){
                 Value += "040000 tree " + new Tree(f).getKey() + " " + f.getName()+ "\n";
             }
         }

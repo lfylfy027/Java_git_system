@@ -21,14 +21,13 @@ public class KeyValue_Storage {
         Tree tr=new Tree(dir);
         tr.copyFile(gitD);
         for(int i = 0; i < files.size(); i++) {
-            
         	//判断如果是blob文件，则生成key并存储
         	if(files.get(i).isFile()) {
         		new Blob(files.get(i)).copyFile(gitD);
             }
         	
         	//如果是文件夹，则递归遍历
-            if(files.get(i).isDirectory()) {
+            if(files.get(i).isDirectory()&&!files.get(i).getName().equals(".git")) {
             	dfs(files.get(i), gitD);
             }
         }
@@ -38,7 +37,7 @@ public class KeyValue_Storage {
 	
 	//根据key值查找文件，返回该文件
 	public static File getValue(String repdir,String key) {
-		String path=repdir+"objects/"+key.charAt(0);
+		String path=repdir+"/objects/"+key.charAt(0);
 		File dir=new File(path);
 		File[] fs = dir.listFiles();
 		ArrayList<File> files=new ArrayList<File>(Arrays.asList(fs));

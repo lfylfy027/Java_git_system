@@ -49,5 +49,8 @@ public class Repository{
 	public String getgitDir() {
 		return location + "/.git";
 	}
+	public String getlocation() {
+		return location;
+	}
 }
 
