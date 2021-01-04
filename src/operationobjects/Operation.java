@@ -9,6 +9,15 @@ public class Operation {
 	protected Branch currBranch;
 	protected Commit currCommit;
 	
+	//读取已有仓库
+	public void readRep(String location) throws IOException {
+		currRepository = new Repository(location);
+		currBranch = new Branch();
+		alterBranch("master");		
+		currCommit = new Commit();
+		currCommit.loadcommit(currRepository.getgitDir(),currBranch.getCommitID());	
+	}
+	
 	//创建仓库
 	public void newRep(String p) throws IOException {
 		currRepository = new Repository(p) ;
@@ -67,11 +76,12 @@ public class Operation {
 	
 	public static void main(String args[]) throws Exception {
 		Operation go = new Operation();
-		go.newRep("test");
-		//go.newCommit("test");
+		go.readRep("test");
+		/*go.newRep("test");
+		go.newCommit("test");
 		new Reset(go.currRepository, go.currCommit).reset_hard();
 		go.newBranch("newBranch");
 		go.showBranches();
-		go.alterBranch("newBranch");			
+		go.alterBranch("newBranch");*/			
 	}
 }

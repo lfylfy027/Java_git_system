@@ -6,13 +6,13 @@ import java.util.Arrays;
 
 public class KeyValue_Storage {
 	
-	public static String storage(File dir1, String gitD) throws Exception {
-		return dfs(dir1, gitD);
+	public static String storage(File dir1, String gitDir) throws Exception {
+		return dfs(dir1, gitDir);
 	}
 
-	public static String storage(String dirpath, String gitD) throws Exception {
+	public static String storage(String dirpath, String gitDir) throws Exception {
 		File dir=new File(dirpath);
-		return dfs(dir, gitD);
+		return dfs(dir, gitDir);
 	}
 	
 	public static String dfs(File dir, String gitD) throws Exception {

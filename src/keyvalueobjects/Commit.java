@@ -3,6 +3,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Commit extends KeyValueObject {
@@ -14,27 +16,32 @@ public class Commit extends KeyValueObject {
 	protected String commitID;
 	protected String gitDir;
 	
-	protected Commit() {
+	public Commit() {
 		
 	}
 	
-	public void loadcommit(File commit) {
+	public void loadcommit(String gitDir1, String commitID) {
 		try {
-			Scanner in=new Scanner(commit);
-			
-			String[] line=in.nextLine().split(" ");
-			this.tree=line[1];
-			
-			line=in.nextLine().split(" ");
-			if(line.length==2) {this.parent=line[1];}
-			
-			line=in.nextLine().split(" ");
-			if(line.length==2) {this.author=line[1];}
-			
-			line=in.nextLine().split(" ");
-			if(line.length==2) {this.committer=line[1];}
-			
-			in.close();
+			this.gitDir=gitDir1;
+			this.commitID=commitID;
+
+			String path=gitDir1+"/objects/"+commitID.charAt(0);
+			File dir=new File(path);
+			File fa[] = dir.listFiles();
+			for (int i = 0; i < fa.length; i++) {
+			    if(fa[i].getName().equals(commitID)) {
+			    	Scanner in=new Scanner(fa[i]);
+			    	String[] line=in.nextLine().split(" ");
+					this.tree=line[1];	
+					line=in.nextLine().split(" ");
+					if(line.length==2) {this.parent=line[1];}					
+					line=in.nextLine().split(" ");
+					if(line.length==2) {this.author=line[1];}					
+					line=in.nextLine().split(" ");
+					if(line.length==2) {this.committer=line[1];}					
+					in.close();			    	
+			    }
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -77,7 +84,7 @@ public class Commit extends KeyValueObject {
 	}
 	
 	public String getinfo() {
-		return parent + commitID + committer;
+		return " parent: " + parent + " author: " + author + " committer: " + committer+ " tree: " + tree + " commitID " + commitID;
 	}
 	
 }
