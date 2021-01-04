@@ -1,8 +1,9 @@
+package keyvalueobjects;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.IOException;
 
-public class Tree extends KeyValueObject {
+public class Tree extends Commit {
 
 	//遍历Tree得到Value和对应的Key
     public Tree(File file) throws Exception {
@@ -26,9 +27,7 @@ public class Tree extends KeyValueObject {
         return "040000 tree" + Key;
     }
 
-    //重写复制方法
-    @Override
-    public void copyFile() throws IOException{
+    public void copyFile(String gitDir) throws IOException{
     	//输出到objects文件夹中
     	
     	//以hash值首字母创建路径
