@@ -1,8 +1,13 @@
 package operationobjects;
 import keyvalueobjects.Commit;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Operation {
 	protected Repository currRepository;
@@ -19,9 +24,13 @@ public class Operation {
 	}
 	
 	//创建仓库
-	public void newRep(String p) throws IOException {
+	public void newRep(String p) throws Exception {
 		currRepository = new Repository(p) ;
 		currBranch = new Branch("master",currRepository.getgitDir(),"");
+		File files = new File(p);
+		currCommit = new Commit("0000000000000000000000000000000000000000",files,currRepository.getgitDir());
+		currCommit.copyFile();
+		currBranch.writeCommitID(currCommit.getcommitID(),currCommit.getinfo());	
 	}
 	
 	//新建分支
@@ -32,10 +41,55 @@ public class Operation {
 	//新建commit	
 	public void newCommit(String file) throws Exception {
 		File files = new File(file);
-		currCommit = new Commit(files, currRepository.getgitDir());
-		currCommit.copyFile();
-		currBranch.writeCommitID(currCommit.getcommitID(),currCommit.getinfo());
-	}	
+		Commit compare = new Commit(currCommit.getcommitID(),files, currRepository.getgitDir());
+
+		if (!compare.gettree().equals(currCommit.gettree())) {
+			currCommit=compare;
+			currCommit.copyFile();
+			currBranch.writeCommitID(currCommit.getcommitID(),currCommit.getinfo());			
+		}
+		else System.out.println("并没有改动文件");
+	}
+	
+	
+	//展示所有commit记录
+	public void showcommits() throws IOException {
+		FileInputStream logf = new FileInputStream(currRepository.getgitDir() + "/logs/refs/heads/" + currBranch.getBranchName());
+    	InputStreamReader isr = new InputStreamReader(logf);
+    	BufferedReader br = new BufferedReader(isr);
+    	String commits = null;
+    	while((commits = br.readLine()) != null) {
+    		System.out.println(commits);
+    	}
+    	
+	}
+	
+	//删除某commit记录以后的所有记录
+	public void resetCommitHistory(String commitID) throws IOException {
+		File logf = new File(currRepository.getgitDir() + "/logs/refs/heads/" + currBranch.getBranchName());
+		BufferedReader br = new BufferedReader(new FileReader(logf));
+		String commit = null;
+		String usefulCommits = "";		
+		while((commit = br.readLine()) != null) {
+			if(!commit.contains(" commitID " + commitID)) {
+				usefulCommits+=(commit + "|");
+			}
+			else {
+				usefulCommits+=(commit + "|");
+				break;
+			}
+		}
+		br.close();
+		logf.delete();
+		String[] newCommits = usefulCommits.split("\\|");				
+		File newlogf = new File(currRepository.getgitDir() + "/logs/refs/heads/" + currBranch.getBranchName());
+		FileWriter logp = new FileWriter(newlogf , true);
+		for(int i = 0; i<newCommits.length; i++) {
+			logp.write(newCommits[i]+"\n");
+			System.out.println(newCommits[i]);
+		}
+    	logp.close(); 
+	}
 	
 	//展示所有分支
 	public void showBranches() {
@@ -74,7 +128,6 @@ public class Operation {
 		currBranch.resetBranch(commitid);				
 	}
 	
-	
 	//reset --hard操作回滚commit记录以及项目文件
 	public void reset_hard(String commitkey) {
 		Commit commit=new Commit();
@@ -83,16 +136,19 @@ public class Operation {
 		currCommit=commit;
 	}
 	
-	
 	public static void main(String args[]) throws Exception {
 		Operation go = new Operation();
 		//go.newRep("test");
 		go.readRep("test");
-		
-		//go.newCommit("test");
-		go.reset_hard("e005b584f0c79eeb7303da9f14eef8aa9b380a7a");
+		//go.currCommit=new Commit();
+		//go.currCommit.loadcommit(go.currRepository.getgitDir(), "e2c23c5ceb9f7e0a2bd2a891e644724539292290");
+		//go.newRep("test");
+		go.newCommit("test");
+		//new Reset(go.currRepository,go.currBranch, go.currCommit).reset_hard();
 		//go.newBranch("newBranch");
 		//go.showBranches();
-		//go.alterBranch("newBranch");		
+		//go.alterBranch("newBranch");	
+		go.showcommits();
+		//go.resetCommitHistory("e005b584f0c79eeb7303da9f14eef8aa9b380a7a");
 	}
 }
