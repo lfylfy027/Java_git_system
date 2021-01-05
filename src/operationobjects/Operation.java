@@ -77,11 +77,13 @@ public class Operation {
 	public static void main(String args[]) throws Exception {
 		Operation go = new Operation();
 		go.readRep("test");
-		/*go.newRep("test");
-		go.newCommit("test");
-		new Reset(go.currRepository, go.currCommit).reset_hard();
-		go.newBranch("newBranch");
-		go.showBranches();
-		go.alterBranch("newBranch");*/			
+		go.currCommit=new Commit();
+		go.currCommit.loadcommit(go.currRepository.getgitDir(), "e2c23c5ceb9f7e0a2bd2a891e644724539292290");
+		//go.newRep("test");
+		//go.newCommit("test");
+		new Reset(go.currRepository,go.currBranch, go.currCommit).reset_hard();
+		//go.newBranch("newBranch");
+		//go.showBranches();
+		//go.alterBranch("newBranch");		
 	}
 }

@@ -12,13 +12,15 @@ import keyvalueobjects.*;
 public class Reset {
 	protected Repository rep;
 	protected Commit commit;
+	protected Branch branch;
 	protected String gitDir;
 	protected String dir;
 	
 	
-	public Reset(Repository rep,Commit commit) {
+	public Reset(Repository rep,Branch branch,Commit commit) {
 		this.rep=rep;
 		this.commit=commit;
+		this.branch=branch;
 		gitDir=rep.getgitDir();
 		dir=rep.getlocation();
 	}
@@ -68,17 +70,25 @@ public class Reset {
         fileOutputStream.close();
 	}
 	
-	private void cleardir() {
-		File dirfile=new File(dir);
-		File[] fs = dirfile.listFiles();
-		ArrayList<File> files=new ArrayList<File>(Arrays.asList(fs));
-		for(int i = 0; i < files.size(); i++) {
-			if(files.get(i).getName()!=".git")files.get(i).delete();
-		}
+	//清空已有的项目文件
+	private static void cleardir(File dirfile) {
+		for(File f:dirfile.listFiles()){
+        	if(f.isFile()){
+               f.delete();
+            }
+            else if(f.isDirectory()&&!f.getName().equals(".git")){
+               cleardir(f);
+               f.delete();
+            }
+        }
 	}
 	
 	public void reset_hard() {
-		cleardir();
+		File dirFile=new File(dir);
+		cleardir(dirFile);
 		reset(dir,commit.gettree());
+		try {
+			branch.resetBranch(commit.getcommitID());
+		} catch (IOException e) {e.printStackTrace();}
 	}
 }
