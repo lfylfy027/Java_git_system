@@ -86,10 +86,11 @@ public class Operation {
 	
 	public static void main(String args[]) throws Exception {
 		Operation go = new Operation();
-		go.readRep("test");
 		//go.newRep("test");
+		go.readRep("test");
+		
 		//go.newCommit("test");
-		go.reset_hard("e2c23c5ceb9f7e0a2bd2a891e644724539292290");
+		go.reset_hard("e005b584f0c79eeb7303da9f14eef8aa9b380a7a");
 		//go.newBranch("newBranch");
 		//go.showBranches();
 		//go.alterBranch("newBranch");		
