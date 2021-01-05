@@ -11,22 +11,26 @@ public class Branch {
     String CommitID;
        
     //新建分支的构造方法
-    public Branch(String name1, String gitD, String commitid) throws IOException {
+    public Branch(String name1, String gitDir, String commitid) throws IOException {
     	this.branchName = name1;
-    	this.Path = gitD;
+    	this.Path = gitDir;
     	writeCommitID(commitid);    	
     }
     
     //切换分支时的构造方法
-    public Branch(String name, String gitD) throws IOException {
+    public Branch(String name, String gitDir) throws IOException {
     	this.branchName = name;
-    	this.Path = gitD;
+    	this.Path = gitDir;
     	@SuppressWarnings("resource")
 		BufferedReader in = new BufferedReader(new FileReader(Path + "/refs/heads/" + name));
     	writeCommitID(in.readLine());     	    	
     }
         
-    public String getBranchName() {
+    public Branch() {
+		
+	}
+
+	public String getBranchName() {
     	return branchName;
     }
     
@@ -58,6 +62,11 @@ public class Branch {
     public void resetBranch(String CommitID1) throws IOException {
     	CommitID = CommitID1;
     	writeCommitID(CommitID);	
+    }
+    
+    //获取CommitID
+    public String getCommitID() {
+    	return CommitID;
     }
 
 }

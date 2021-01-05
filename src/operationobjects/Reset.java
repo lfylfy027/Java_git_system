@@ -7,21 +7,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-
+import keyvalueobjects.*;
 
 public class Reset {
 	protected Repository rep;
 	protected Commit commit;
-	protected String gitDir=set_gitDir();
-	protected String dir=set_dir();
+	protected String gitDir;
+	protected String dir;
 	
-	private String set_gitDir() {
-		return rep.gitDir;
-	}
 	
-	private String set_dir() {
-		return rep.dir;
+	public Reset(Repository rep,Commit commit) {
+		this.rep=rep;
+		this.commit=commit;
+		gitDir=rep.getgitDir();
+		dir=rep.getlocation();
 	}
+
 	
 	//递归实现回滚文件的方法
 	private void reset(String dirpath,String treekey) {
