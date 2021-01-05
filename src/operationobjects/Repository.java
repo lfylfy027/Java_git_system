@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 
 public class Repository{
 	private String location;//仓库路径
-			
     public Repository(String path) throws IOException {    	
     	location = path;
     	path = path + "/.git";   	

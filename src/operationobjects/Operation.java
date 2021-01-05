@@ -4,13 +4,8 @@ import keyvalueobjects.Commit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 
 public class Operation {
 	protected Repository currRepository;
@@ -21,7 +16,7 @@ public class Operation {
 	public void readRep(String location) throws IOException {
 		currRepository = new Repository(location);	
 		currBranch = new Branch();
-		currBranch.alterBranch("master", currRepository.getgitDir()); 
+		currBranch.alterBranch("master", currRepository.getgitDir(),currRepository.getlocation()); 
 		File in = new File(currRepository.getgitDir() + "/refs/heads/master");
 		if(in.length() != 0) {
 			currCommit = new Commit();
@@ -46,8 +41,8 @@ public class Operation {
 	}
 	
 	//新建commit	
-	public void newCommit(String file) throws Exception {
-		File files = new File(file);
+	public void newCommit() throws Exception {
+		File files = new File(currRepository.getlocation());
 		File in = new File(currRepository.getgitDir() + "/refs/heads/" + currBranch.getBranchName() );
 		if(in.length() != 0) {									
 			Commit compare = new Commit(currCommit.getcommitID(),files, currRepository.getgitDir());
@@ -96,7 +91,7 @@ public class Operation {
 			
 	//切换分支
 	public void alterBranch(String name) throws IOException {
-		currBranch.alterBranch(name, currRepository.getgitDir());
+		currBranch.alterBranch(name, currRepository.getgitDir(),currRepository.getlocation());
 		System.out.println("切换分支成功");
 	}
 	
@@ -120,5 +115,10 @@ public class Operation {
 	}
 	
 	public static void main(String args[]) throws Exception {
+		Operation go=new Operation();
+		go.readRep("test");
+		//go.newCommit("test");
+		go.showcommits();
+		//go.reset_hard("648058176d24ea2426d796ad589aae46dbd2ac4c");
 	}
 }

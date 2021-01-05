@@ -22,7 +22,7 @@ public class CommandLine {
 			}
 
 			else if (commandLine[0].equals("gitto") && commandLine[1].equals("commit")) {
-				go.newCommit(commandLine[2]);
+				go.newCommit();
 				//System.out.println("Commit成功");
 			}
 
