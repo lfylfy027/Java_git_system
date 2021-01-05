@@ -74,14 +74,22 @@ public class Operation {
 		currBranch.resetBranch(commitid);				
 	}
 	
+	
+	//reset --hard操作回滚commit记录以及项目文件
+	public void reset_hard(String commitkey) {
+		Commit commit=new Commit();
+		commit.loadcommit(currRepository.getgitDir(), commitkey);
+		new Reset(currRepository,currBranch,commit).reset_hard();
+		currCommit=commit;
+	}
+	
+	
 	public static void main(String args[]) throws Exception {
 		Operation go = new Operation();
 		go.readRep("test");
-		go.currCommit=new Commit();
-		go.currCommit.loadcommit(go.currRepository.getgitDir(), "e2c23c5ceb9f7e0a2bd2a891e644724539292290");
 		//go.newRep("test");
 		//go.newCommit("test");
-		new Reset(go.currRepository,go.currBranch, go.currCommit).reset_hard();
+		go.reset_hard("e2c23c5ceb9f7e0a2bd2a891e644724539292290");
 		//go.newBranch("newBranch");
 		//go.showBranches();
 		//go.alterBranch("newBranch");		
