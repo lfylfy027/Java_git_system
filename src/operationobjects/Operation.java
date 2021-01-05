@@ -111,5 +111,10 @@ public class Operation {
 	}
 	
 	public static void main(String args[]) throws Exception {
+		Operation go=new Operation();
+		go.readRep("test");
+		//go.newCommit("test");
+		go.showcommits();
+		//go.reset_hard("648058176d24ea2426d796ad589aae46dbd2ac4c");
 	}
 }
