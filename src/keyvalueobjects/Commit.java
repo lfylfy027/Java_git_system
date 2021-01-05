@@ -47,14 +47,15 @@ public class Commit extends KeyValueObject {
 		}
 	}
 	//根据仓库路径新生成一个commit
-	public Commit(File dir, String gitD) throws Exception {
-		gitDir = gitD;
+	public Commit(String parent,File dir, String gitDir) throws Exception {
+		this.gitDir = gitDir;
+		this.parent = parent;
 		this.File=dir;
 		this.Type = "commit";
 		this.Value="";
-		this.tree=KeyValue_Storage.storage(dir, gitD);
+		this.tree=KeyValue_Storage.storage(dir, gitDir);
 		Value+= "tree "+tree+"\n";
-		Value+= "parent "+"\n";
+		Value+= "parent "+parent+"\n";
 		Value+= "author "+"\n";
 		Value+= "committer "+"\n";
 		GenerateKey(Value);
@@ -85,6 +86,10 @@ public class Commit extends KeyValueObject {
 	
 	public String getinfo() {
 		return " parent: " + parent + " author: " + author + " committer: " + committer+ " tree: " + tree + " commitID " + commitID;
+	}
+	
+	public String getParent() {
+		return parent;
 	}
 	
 }
