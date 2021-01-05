@@ -36,9 +36,9 @@ public class Branch {
 		}
     	     	    	
     }
-        
-    public Branch() {
-
+    public Branch() {}
+    public Branch(String name) {
+    	this.branchName=name;
 	}
 
 	public String getBranchName() {
@@ -85,7 +85,6 @@ public class Branch {
 	//删除某commit记录以后的所有记录
 	public void resetCommitHistory(String commitkey, String gitDir) throws IOException {
 		String pathdir=gitDir + "/logs/refs/heads/" + branchName;
-		System.out.print(pathdir);
 		File logf = new File(pathdir);
 		BufferedReader br = new BufferedReader(new FileReader(logf));
 		String commit = null;

@@ -73,7 +73,8 @@ public class Reset extends GitOperation {
         }
 	}
 	
-	public void reset_hard(String gitDir) {
+	
+	public void reset_hard() {
 		File dirFile=new File(dir);
 		cleardir(dirFile);
 		reset(dir,commit.gettree());
