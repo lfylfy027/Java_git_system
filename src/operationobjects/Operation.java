@@ -104,7 +104,7 @@ public class Operation {
 	public void reset_hard(String commitkey) {
 		Commit commit=new Commit();
 		commit.loadcommit(currRepository.getgitDir(), commitkey);
-		new Reset(currRepository,currBranch,commit).reset_hard(currRepository.getgitDir());
+		new Reset(currRepository,currBranch,commit).reset_hard();
 		try {
 			currBranch.resetCommitHistory(commitkey, currRepository.getgitDir());
 		} catch (IOException e) {
@@ -114,11 +114,16 @@ public class Operation {
 		System.out.println("回滚成功");
 	}
 	
+	public void mergebranch(String branchname) {
+		Branch newbranch=new Branch(branchname);
+		Merge re=new Merge(currRepository, currBranch, currCommit, newbranch);
+		re.merge();
+	}
+	
 	public static void main(String args[]) throws Exception {
 		Operation go=new Operation();
 		go.readRep("test");
-		//go.newCommit("test");
-		go.showcommits();
-		//go.reset_hard("648058176d24ea2426d796ad589aae46dbd2ac4c");
+		go.alterBranch("newBranch");
+		go.mergebranch("master");
 	}
 }
