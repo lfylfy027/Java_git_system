@@ -9,6 +9,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Scanner;
+
+import keyvalueobjects.Commit;
+import keyvalueobjects.KeyValue_Storage;
 
 
 public class Branch {
@@ -34,7 +38,7 @@ public class Branch {
     }
         
     public Branch() {
-		
+
 	}
 
 	public String getBranchName() {
@@ -108,10 +112,10 @@ public class Branch {
 	}
 	
 	//切换分支
-	public void alterBranch(String name, String gitDir) throws IOException {
+	public void alterBranch(String name, String gitDir,String dir) throws IOException {
 		File f = new File(gitDir + "/refs/heads/" + name);	
         if (f.exists()) {
-        	
+        		
         	//重写HEAD
         	File HEAD = new File(gitDir + "/HEAD");
             FileWriter p = new FileWriter(HEAD);
@@ -124,8 +128,17 @@ public class Branch {
         	p1.write("ref: refs/heads/" + name + "\n");
         	p1.close();  
         	
+        	//切换项目文件内容
+        	Scanner in=new Scanner(f);
+        	String commitkey=in.nextLine();
+        	in.close();
+        	Commit commit=new Commit();
+        	commit.loadcommit(gitDir,commitkey);
+        	cleardir(new File(dir));
+        	reset(dir, commit.gettree(),gitDir);
+        	
         	branchName = name;
-        	      	
+        	
         }
         else System.out.println("The branch doesn't exist");		
 	}
@@ -143,5 +156,60 @@ public class Branch {
 		}
 		input.close();
 		output.close();
+	}
+	
+	//切换分支时同时切换文件夹内容
+	private void reset(String dirpath,String treekey,String gitDir) {
+		File tree=KeyValue_Storage.getValue(gitDir, treekey);
+		try {
+			Scanner in=new Scanner(tree);
+			while(in.hasNext()) {
+				String[] line=in.nextLine().split(" ");
+				String type=line[1];
+				String key=line[2];
+				String filename=line[3];
+				if(type.equals("tree")) {
+					File dir = new File(dirpath+"/"+filename);
+		            if (!dir.exists()) {
+		            	// 判断目录是否存在     
+		                dir.mkdir();   
+		            }
+					reset(dirpath+"/"+filename, key,gitDir);
+				}
+				if(type.equals("blob")) {
+					String newpath=dirpath+"/"+filename;
+						try {
+							copyfile(KeyValue_Storage.getValue(gitDir, key), newpath);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void cleardir(File dirfile) {
+		for(File f:dirfile.listFiles()){
+        	if(f.isFile()){
+               f.delete();
+            }
+            else if(f.isDirectory()&&!f.getName().equals(".git")){
+               cleardir(f);
+               f.delete();
+            }
+        }
+	}
+	//将文件恢复至项目文件夹
+	private static void copyfile(File oldfile,String newpath) throws IOException  {
+		FileInputStream fileInputStream = new FileInputStream(oldfile);
+        FileOutputStream fileOutputStream = new FileOutputStream(newpath);
+        byte[] buffer = new byte[1024];
+        while (fileInputStream.read(buffer) != -1) {
+        		fileOutputStream.write(buffer);
+        }
+        fileInputStream.close();
+        fileOutputStream.close();
 	}
 }
