@@ -22,7 +22,7 @@ public class Operation {
 			currCommit = new Commit();
 			currCommit.loadcommit(currRepository.getgitDir(),currBranch.getCommitKey(currRepository.getgitDir()));				
 		}
-		System.out.println("读取仓库成功");
+		System.out.println("√ 读取仓库成功了喵~");
 	}
 	
 	//创建仓库
@@ -30,14 +30,14 @@ public class Operation {
 		currRepository = new Repository(p) ;
 		currBranch = new Branch("master",currRepository.getgitDir(),"");
 		currBranch.writeCommitKey("", currRepository.getgitDir());
-		System.out.println("新建仓库成功");
+		System.out.println("√ 新建仓库成功了喵~");
 	}
 	
 	//新建分支
 	public void newBranch(String name) throws IOException {
 		currBranch.copyLogs(name, currRepository.getgitDir());
 		currBranch = new Branch(name,currRepository.getgitDir(), currCommit.getcommitID());
-		System.out.println("新建分支成功");
+		System.out.println("√ 新建分支成功了喵~");
 	}
 	
 	//新建commit	
@@ -51,15 +51,15 @@ public class Operation {
 				currCommit=compare;
 				currCommit.copyFile();
 				currBranch.writeCommitKey(currCommit.getcommitID(),currCommit.getinfo(),currRepository.getgitDir());
-				System.out.println("Commit成功");
+				System.out.println("√ Commit成功了喵~");
 			}
-			else System.out.println("并没有改动文件");
+			else System.out.println("× 并没有改动文件喵！");
 		}
 		else {
 			currCommit = new Commit("0000000000000000000000000000000000000000",files, currRepository.getgitDir());
 			currCommit.copyFile();
 			currBranch.writeCommitKey(currCommit.getcommitID(),currCommit.getinfo(),currRepository.getgitDir());
-			System.out.println("Commit成功");
+			System.out.println("√ Commit成功了喵~");
 		}
 	}
 	
@@ -70,7 +70,7 @@ public class Operation {
     	InputStreamReader isr = new InputStreamReader(logf);
     	BufferedReader br = new BufferedReader(isr);
     	String commits = null;
-    	System.out.println("Commit记录：");
+    	System.out.println("√ 下面是Commit记录：");
     	while((commits = br.readLine()) != null) {
     		System.out.println(commits);
     	}
@@ -82,7 +82,7 @@ public class Operation {
 	public void showBranches() {
 		File f = new File(currRepository.getgitDir() + "/refs/heads");
 		File fa[] = f.listFiles();
-		System.out.println("当前的分支有：");
+		System.out.println("√ 下面是当前的分支：");
 		for (int i = 0; i < fa.length; i++) {
 			File fs = fa[i];
 			System.out.println(fs.getName());
@@ -92,7 +92,6 @@ public class Operation {
 	//切换分支
 	public void alterBranch(String name) throws IOException {
 		currBranch.alterBranch(name, currRepository.getgitDir(),currRepository.getlocation());
-		System.out.println("切换分支成功");
 	}
 	
 	//切换分支指向的commit
@@ -102,7 +101,7 @@ public class Operation {
 	
 	//reset --hard操作回滚commit记录以及项目文件
 	public void reset_hard(String commitkey) {
-		System.out.println("回滚成功，新的Commit记录：");
+		System.out.println("√ 回滚成功了喵~，下面是新的Commit记录：");
 		Commit commit=new Commit();
 		commit.loadcommit(currRepository.getgitDir(), commitkey);
 		new Reset(currRepository,currBranch,commit).reset_hard();
@@ -118,7 +117,7 @@ public class Operation {
 		Branch newbranch=new Branch(branchname);
 		Merge re=new Merge(currRepository, currBranch, currCommit, newbranch);
 		re.merge();
-		System.out.println("合并成功");
+		System.out.println("√ 合并成功了喵~");
 	}
 	
 	public static void main(String args[]) throws Exception {

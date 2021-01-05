@@ -138,8 +138,9 @@ public class Branch {
         	
         	branchName = name;
         	
+        	System.out.println("√");
         }
-        else System.out.println("The branch doesn't exist");		
+        else System.out.println("× 不存在这个分支喵！");		
 	}
 	
 	//logs中的分支内容复制
