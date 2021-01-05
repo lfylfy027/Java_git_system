@@ -9,23 +9,13 @@ import java.util.Arrays;
 import java.util.Scanner;
 import keyvalueobjects.*;
 
-public class Reset {
-	protected Repository rep;
-	protected Commit commit;
-	protected Branch branch;
-	protected String gitDir;
-	protected String dir;
-	
-	
-	public Reset(Repository rep,Branch branch,Commit commit) {
-		this.rep=rep;
-		this.commit=commit;
-		this.branch=branch;
-		gitDir=rep.getgitDir();
-		dir=rep.getlocation();
-	}
+public class Reset extends GitOperation {
 
 	
+	public Reset(Repository rep, Branch branch, Commit commit) {
+		super(rep, branch, commit);
+	}
+
 	//递归实现回滚文件的方法
 	private void reset(String dirpath,String treekey) {
 		File tree=KeyValue_Storage.getValue(gitDir, treekey);

@@ -19,6 +19,11 @@ public class Commit extends KeyValueObject {
 	public Commit() {
 		
 	}
+	public Commit(String dir)  {
+		this.Key="0000000000000000000000000000000000000000";
+		this.Type = "commit";
+		gitDir=dir;
+	}
 	
 	public void loadcommit(String gitDir1, String commitID) {
 		try {
@@ -32,7 +37,7 @@ public class Commit extends KeyValueObject {
 			    if(fa[i].getName().equals(commitID)) {
 			    	Scanner in=new Scanner(fa[i]);
 			    	String[] line=in.nextLine().split(" ");
-					this.tree=line[1];	
+			    	if(line.length==2) {this.tree=line[1];}
 					line=in.nextLine().split(" ");
 					if(line.length==2) {this.parent=line[1];}					
 					line=in.nextLine().split(" ");
