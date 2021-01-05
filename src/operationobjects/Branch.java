@@ -68,5 +68,33 @@ public class Branch {
     public String getCommitID() {
     	return CommitID;
     }
-
+    
+	//删除某commit记录以后的所有记录
+	public void resetCommitHistory(String commitkey) throws IOException {
+		String pathdir=Path + "/logs/refs/heads/" + branchName;
+		System.out.print(pathdir);
+		File logf = new File(pathdir);
+		BufferedReader br = new BufferedReader(new FileReader(logf));
+		String commit = null;
+		String usefulCommits = "";		
+		while((commit = br.readLine()) != null) {
+			if(!commit.contains(" commitID " + commitkey)) {
+				usefulCommits+=(commit + "|");
+			}
+			else {
+				usefulCommits+=(commit + "|");
+				break;
+			}
+		}
+		br.close();
+		logf.delete();
+		String[] newCommits = usefulCommits.split("\\|");				
+		File newlogf = new File(Path + "/logs/refs/heads/" +branchName);
+		FileWriter logp = new FileWriter(newlogf , true);
+		for(int i = 0; i<newCommits.length; i++) {
+			logp.write(newCommits[i]+"\n");
+			System.out.println(newCommits[i]);
+		}
+    	logp.close(); 
+	}
 }

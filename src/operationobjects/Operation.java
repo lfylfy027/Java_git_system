@@ -4,7 +4,7 @@ import keyvalueobjects.Commit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,7 +28,7 @@ public class Operation {
 		currRepository = new Repository(p) ;
 		currBranch = new Branch("master",currRepository.getgitDir(),"");
 		File files = new File(p);
-		currCommit = new Commit("0000000000000000000000000000000000000000",files,currRepository.getgitDir());
+		currCommit = new Commit(currRepository.getgitDir());
 		currCommit.copyFile();
 		currBranch.writeCommitID(currCommit.getcommitID(),currCommit.getinfo());	
 	}
@@ -61,35 +61,9 @@ public class Operation {
     	while((commits = br.readLine()) != null) {
     		System.out.println(commits);
     	}
-    	
+    	br.close();
 	}
 	
-	//删除某commit记录以后的所有记录
-	public void resetCommitHistory(String commitID) throws IOException {
-		File logf = new File(currRepository.getgitDir() + "/logs/refs/heads/" + currBranch.getBranchName());
-		BufferedReader br = new BufferedReader(new FileReader(logf));
-		String commit = null;
-		String usefulCommits = "";		
-		while((commit = br.readLine()) != null) {
-			if(!commit.contains(" commitID " + commitID)) {
-				usefulCommits+=(commit + "|");
-			}
-			else {
-				usefulCommits+=(commit + "|");
-				break;
-			}
-		}
-		br.close();
-		logf.delete();
-		String[] newCommits = usefulCommits.split("\\|");				
-		File newlogf = new File(currRepository.getgitDir() + "/logs/refs/heads/" + currBranch.getBranchName());
-		FileWriter logp = new FileWriter(newlogf , true);
-		for(int i = 0; i<newCommits.length; i++) {
-			logp.write(newCommits[i]+"\n");
-			System.out.println(newCommits[i]);
-		}
-    	logp.close(); 
-	}
 	
 	//展示所有分支
 	public void showBranches() {
@@ -133,6 +107,11 @@ public class Operation {
 		Commit commit=new Commit();
 		commit.loadcommit(currRepository.getgitDir(), commitkey);
 		new Reset(currRepository,currBranch,commit).reset_hard();
+		try {
+			currBranch.resetCommitHistory(commitkey);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		currCommit=commit;
 	}
 	
@@ -143,12 +122,13 @@ public class Operation {
 		//go.currCommit=new Commit();
 		//go.currCommit.loadcommit(go.currRepository.getgitDir(), "e2c23c5ceb9f7e0a2bd2a891e644724539292290");
 		//go.newRep("test");
-		go.newCommit("test");
-		//new Reset(go.currRepository,go.currBranch, go.currCommit).reset_hard();
+		//go.newCommit("test");
+		
 		//go.newBranch("newBranch");
 		//go.showBranches();
 		//go.alterBranch("newBranch");	
 		go.showcommits();
-		//go.resetCommitHistory("e005b584f0c79eeb7303da9f14eef8aa9b380a7a");
+		go.reset_hard("648058176d24ea2426d796ad589aae46dbd2ac4c");
+		//go.currBranch.resetCommitHistory("166beede81957352de9849aa31e905c1963a0c95");
 	}
 }
