@@ -52,6 +52,11 @@ public class CommandLine {
 				//System.out.println("回滚成功");
 			}
 
+			else if (commandLine[0].equals("gitto") && commandLine[1].equals("merge")) {
+				go.mergebranch(commandLine[2]);
+				//System.out.println("合并成功");
+			}
+			
 			else {
 				System.out.println("输入指令错误");
 			}

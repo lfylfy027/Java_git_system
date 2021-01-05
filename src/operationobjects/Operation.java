@@ -102,6 +102,7 @@ public class Operation {
 	
 	//reset --hard操作回滚commit记录以及项目文件
 	public void reset_hard(String commitkey) {
+		System.out.println("回滚成功，新的Commit记录：");
 		Commit commit=new Commit();
 		commit.loadcommit(currRepository.getgitDir(), commitkey);
 		new Reset(currRepository,currBranch,commit).reset_hard();
@@ -111,13 +112,13 @@ public class Operation {
 			e.printStackTrace();
 		}
 		currCommit=commit;
-		System.out.println("回滚成功");
 	}
 	
 	public void mergebranch(String branchname) {
 		Branch newbranch=new Branch(branchname);
 		Merge re=new Merge(currRepository, currBranch, currCommit, newbranch);
 		re.merge();
+		System.out.println("合并成功");
 	}
 	
 	public static void main(String args[]) throws Exception {
