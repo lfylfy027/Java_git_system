@@ -123,12 +123,15 @@ public class Operation {
 		//go.currCommit.loadcommit(go.currRepository.getgitDir(), "e2c23c5ceb9f7e0a2bd2a891e644724539292290");
 		//go.newRep("test");
 		//go.newCommit("test");
-		
 		//go.newBranch("newBranch");
+		//go.newCommit("test");
 		//go.showBranches();
-		//go.alterBranch("newBranch");	
+		//go.alterBranch("newBranch");
+		
+		//go.newCommit("test");
 		go.showcommits();
-		go.reset_hard("648058176d24ea2426d796ad589aae46dbd2ac4c");
+		System.out.print(new Merge(go.currRepository, go.currBranch, go.currCommit, new Branch("newBranch", go.currRepository.getgitDir(), "3bc915e4dcf5bcfb85d82ad21787f3544d979531")).checkcommit());
+		//go.reset_hard("648058176d24ea2426d796ad589aae46dbd2ac4c");
 		//go.currBranch.resetCommitHistory("166beede81957352de9849aa31e905c1963a0c95");
 	}
 }
