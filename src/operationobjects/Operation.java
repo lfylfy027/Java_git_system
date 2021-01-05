@@ -91,7 +91,7 @@ public class Operation {
 			
 	//切换分支
 	public void alterBranch(String name) throws IOException {
-		currBranch.alterBranch(name, currRepository.getgitDir(),currRepository.getlocation());
+		System.out.println(currBranch.alterBranch(name, currRepository.getgitDir(),currRepository.getlocation()));
 	}
 	
 	//切换分支指向的commit
@@ -121,9 +121,5 @@ public class Operation {
 	}
 	
 	public static void main(String args[]) throws Exception {
-		Operation go=new Operation();
-		go.readRep("test");
-		go.alterBranch("newBranch");
-		go.mergebranch("master");
 	}
 }

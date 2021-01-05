@@ -45,7 +45,6 @@ public class Merge extends GitOperation {
 		File log=new File(path);
 		try {
 			Scanner in=new Scanner(log);
-			in.nextLine();
 			while(in.hasNext()) {
 				String[] line=in.nextLine().split(" ");
 				list.add(line[10]);
@@ -72,7 +71,7 @@ public class Merge extends GitOperation {
 	}
 	public String merge() {
 		String tmp=checkcommit();
-		if(tmp.equals("uptodate"))return "当前分支领先于目标分支。";
+		if(tmp.equals("uptodate"))return "当前分支领先于目标分支";
 		if(tmp.equals("fast")) {
 			fast_merge();
 			return "分支合并成功";

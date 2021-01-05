@@ -90,7 +90,7 @@ public class Branch {
 		String commit = null;
 		String usefulCommits = "";		
 		while((commit = br.readLine()) != null) {
-			if(!commit.contains(" commitID " + commitkey)) {
+			if(!commit.contains(" commitID: " + commitkey)) {
 				usefulCommits+=(commit + "|");
 			}
 			else {
@@ -111,7 +111,7 @@ public class Branch {
 	}
 	
 	//切换分支
-	public void alterBranch(String name, String gitDir,String dir) throws IOException {
+	public String alterBranch(String name, String gitDir,String dir) throws IOException {
 		File f = new File(gitDir + "/refs/heads/" + name);	
         if (f.exists()) {
         		
@@ -138,9 +138,9 @@ public class Branch {
         	
         	branchName = name;
         	
-        	System.out.println("√");
+        	return "√ 分支切换成功了喵！";
         }
-        else System.out.println("× 不存在这个分支喵！");		
+        else return "× 不存在这个分支喵！";		
 	}
 	
 	//logs中的分支内容复制
