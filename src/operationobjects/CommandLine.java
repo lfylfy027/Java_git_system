@@ -6,11 +6,18 @@ import java.util.*;
 public class CommandLine {
 	public static void main(String[] args) throws Exception {
 		Operation go = new Operation();
+		Scanner input = new Scanner(System.in);
 		while (true) {
-			Scanner input = new Scanner(System.in);
+			String user="@吴彦祖  Java_git_system/";
+			if(go.currRepository!=null) {
+				user=user+go.currRepository.getlocation()+"  "+go.currBranch.getBranchName();
+			}
+			System.out.println(user);
+			
 			String command = input.nextLine();
 			String[] commandLine = command.split(" ");
-
+			
+			
 			if (commandLine[0].equals("gitto") && commandLine[1].equals("new")) {
 				go.newRep(commandLine[2]);
 				//System.out.println("新建仓库成功");
@@ -31,7 +38,7 @@ public class CommandLine {
 				//System.out.println("新建分支成功");
 			}
 
-			else if (commandLine[0].equals("gitto") && commandLine[1].equals("showBranches")) {
+			else if (commandLine[0].equals("gitto") && commandLine[1].equals("showbranch")) {
 				//System.out.println("当前的分支有：");
 				go.showBranches();
 			}
@@ -44,7 +51,6 @@ public class CommandLine {
 			else if (commandLine[0].equals("gitto") && commandLine[1].equals("log")) {
 				//System.out.println("Commit记录：");
 				go.showcommits();
-
 			}
 
 			else if (commandLine[0].equals("gitto") && commandLine[1].equals("reset")) {
@@ -60,6 +66,7 @@ public class CommandLine {
 			else {
 				System.out.println("× 指令输错了喵！");
 			}
+			System.out.println();
 		}
 	}
 }
