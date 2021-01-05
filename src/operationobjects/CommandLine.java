@@ -58,7 +58,7 @@ public class CommandLine {
 			}
 			
 			else {
-				System.out.println("输入指令错误");
+				System.out.println("× 指令输错了喵！");
 			}
 		}
 	}
