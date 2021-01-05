@@ -73,12 +73,12 @@ public class Reset extends GitOperation {
         }
 	}
 	
-	public void reset_hard() {
+	public void reset_hard(String gitDir) {
 		File dirFile=new File(dir);
 		cleardir(dirFile);
 		reset(dir,commit.gettree());
 		try {
-			branch.resetBranch(commit.getcommitID());
+			branch.resetBranch(commit.getcommitID(),gitDir);
 		} catch (IOException e) {e.printStackTrace();}
 	}
 }
