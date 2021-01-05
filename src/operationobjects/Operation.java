@@ -86,12 +86,12 @@ public class Operation {
 	
 	public static void main(String args[]) throws Exception {
 		Operation go = new Operation();
-		go.readRep("test");
-		//go.newRep("test");
-		//go.newCommit("test");
-		go.reset_hard("e2c23c5ceb9f7e0a2bd2a891e644724539292290");
-		//go.newBranch("newBranch");
-		//go.showBranches();
-		//go.alterBranch("newBranch");		
+		go.newRep("test");
+		//go.readRep("test");
+		go.newCommit("test");
+		//go.reset_hard("f568199d0c3082bcfdb5ae0bc4e3d23f6d3644b2");
+		go.newBranch("newBranch");
+		go.showBranches();
+		go.alterBranch("newBranch");		
 	}
 }
