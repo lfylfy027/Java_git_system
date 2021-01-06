@@ -90,7 +90,7 @@ public class Commit extends KeyValueObject {
 	}
 	
 	public String getinfo() {
-		return " parent: " + parent + " author: " + author + " committer: " + committer+ " tree: " + tree + " commitID: " + commitID;
+		return " parent: " + parent + " author: " + "☆ikun♥" + " committer: " + "☆ikun♥"+ " tree: " + tree + " commitID: " + commitID;
 	}
 	
 	public String getParent() {

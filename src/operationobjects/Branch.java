@@ -138,7 +138,7 @@ public class Branch {
         	
         	branchName = name;
         	
-        	return "√ 分支切换成功了喵！";
+        	return "√ 分支切换成功了喵~";
         }
         else return "× 不存在这个分支喵！";		
 	}
