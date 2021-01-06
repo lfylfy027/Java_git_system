@@ -43,6 +43,7 @@ public class Reset extends GitOperation {
 						}
 				}
 			}
+			in.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

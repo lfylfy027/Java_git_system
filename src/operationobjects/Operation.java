@@ -116,8 +116,21 @@ public class Operation {
 	public void mergebranch(String branchname) {
 		Branch newbranch=new Branch(branchname);
 		Merge re=new Merge(currRepository, currBranch, currCommit, newbranch);
-		re.merge();
+		int tmp=re.merge();
+		if(tmp==0) {
 		System.out.println("√ 合并成功了喵~");
+		}
+		if(tmp==1) {
+		System.out.println("√ 已经是最新的分支了喵~");
+		}
+		if(tmp==2) {
+			System.out.println("√ 合并成功，并且生成新Commit了喵~");
+			try {
+				newCommit();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public static void main(String args[]) throws Exception {
