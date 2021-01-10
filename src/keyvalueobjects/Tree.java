@@ -21,8 +21,6 @@ public class Tree extends Commit {
         GenerateKey(Value);
     }
 
-    //重写toString方法
-    @Override
     public String toString(){
         return "040000 tree" + Key;
     }

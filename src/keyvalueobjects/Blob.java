@@ -11,8 +11,6 @@ public class Blob extends Commit {
         GenerateKey(file);
     }
     
-    //重写toString方法
-    @Override
     public String toString() {
         return "100644 blob " + Key;
     }
